@@ -3,6 +3,8 @@
 Module for text indentation.
 This module provides a function to format text with specific indentation rules.
 """
+
+
 def text_indentation(text):
     """
     Prints a text with 2 new lines after each '.', '?', and ':' characters.
