@@ -3,9 +3,10 @@
 
 
 class Rectangle:
-    """A class that defines a rectangle with instance counting."""
+    """A class that defines a rectangle with comparison capabilities."""
 
     number_of_instances = 0
+    printsymbol = "#"
 
     def __init__(self, width=0, height=0):
         """Initialize a new Rectangle instance.
@@ -82,34 +83,30 @@ class Rectangle:
         """Calculate and return the perimeter of the rectangle.
 
         Returns:
-            int: The perimeter of the rectangle.
-            If width or height is 0, returns 0.
+            int: The perimeter of the rectangle. If width or height is 0, returns 0.
         """
         if self.__width == 0 or self.__height == 0:
             return 0
         return 2 * (self.__width + self.__height)
 
     def __str__(self):
-        """Return string representation of the rectangle using '#' characters.
+        """Return string representation of the rectangle using printsymbol.
 
         Returns:
-            str: String representation of the rectangle,
-            or empty string if width or height is 0.
+            str: String representation of the rectangle, or empty string if width or height is 0.
         """
         if self.__width == 0 or self.__height == 0:
             return ""
         rectangle_str = []
         for i in range(self.__height):
-            rectangle_str.append("#" * self.__width)
+            rectangle_str.append(str(self.printsymbol) * self.__width)
         return "\n".join(rectangle_str)
 
     def __repr__(self):
-        """Return string representation of the rectangle
-        that can be used with eval().
+        """Return string representation of the rectangle that can be used with eval().
 
         Returns:
-            str: String representation that can recreate
-            the rectangle with eval().
+            str: String representation that can recreate the rectangle with eval().
         """
         return "Rectangle({}, {})".format(self.__width, self.__height)
 
@@ -117,3 +114,26 @@ class Rectangle:
         """Print a message when the Rectangle instance is deleted."""
         type(self).number_of_instances -= 1
         print("Bye rectangle...")
+
+    @staticmethod
+    def bigger_or_equal(rect_1, rect_2):
+        """Return the rectangle with the bigger area.
+
+        Args:
+            rect_1: First rectangle to compare.
+            rect_2: Second rectangle to compare.
+
+        Returns:
+            Rectangle: The rectangle with the bigger area, or rect_1 if they're equal.
+
+        Raises:
+            TypeError: If rect_1 or rect_2 is not an instance of Rectangle.
+        """
+        if not isinstance(rect_1, Rectangle):
+            raise TypeError("rect_1 must be an instance of Rectangle")
+        if not isinstance(rect_2, Rectangle):
+            raise TypeError("rect_2 must be an instance of Rectangle")
+
+        if rect_1.area() >= rect_2.area():
+            return rect_1
+        return rect_2

@@ -3,9 +3,10 @@
 
 
 class Rectangle:
-    """A class that defines a rectangle with instance counting."""
+    """A class that defines a rectangle with customizable print symbol."""
 
     number_of_instances = 0
+    printsymbol = "#"
 
     def __init__(self, width=0, height=0):
         """Initialize a new Rectangle instance.
@@ -82,34 +83,30 @@ class Rectangle:
         """Calculate and return the perimeter of the rectangle.
 
         Returns:
-            int: The perimeter of the rectangle.
-            If width or height is 0, returns 0.
+            int: The perimeter of the rectangle. If width or height is 0, returns 0.
         """
         if self.__width == 0 or self.__height == 0:
             return 0
         return 2 * (self.__width + self.__height)
 
     def __str__(self):
-        """Return string representation of the rectangle using '#' characters.
+        """Return string representation of the rectangle using printsymbol.
 
         Returns:
-            str: String representation of the rectangle,
-            or empty string if width or height is 0.
+            str: String representation of the rectangle, or empty string if width or height is 0.
         """
         if self.__width == 0 or self.__height == 0:
             return ""
         rectangle_str = []
         for i in range(self.__height):
-            rectangle_str.append("#" * self.__width)
+            rectangle_str.append(str(self.printsymbol) * self.__width)
         return "\n".join(rectangle_str)
 
     def __repr__(self):
-        """Return string representation of the rectangle
-        that can be used with eval().
+        """Return string representation of the rectangle that can be used with eval().
 
         Returns:
-            str: String representation that can recreate
-            the rectangle with eval().
+            str: String representation that can recreate the rectangle with eval().
         """
         return "Rectangle({}, {})".format(self.__width, self.__height)
 
