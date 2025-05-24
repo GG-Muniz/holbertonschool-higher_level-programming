@@ -83,7 +83,8 @@ class Rectangle:
         """Calculate and return the perimeter of the rectangle.
 
         Returns:
-            int: The perimeter of the rectangle. If width or height is 0, returns 0.
+            int: The perimeter of the rectangle.
+            If width or height is 0, returns 0.
         """
         if self.__width == 0 or self.__height == 0:
             return 0
@@ -93,7 +94,8 @@ class Rectangle:
         """Return string representation of the rectangle using printsymbol.
 
         Returns:
-            str: String representation of the rectangle, or empty string if width or height is 0.
+            str: String representation of the rectangle,
+            or empty string if width or height is 0.
         """
         if self.__width == 0 or self.__height == 0:
             return ""
@@ -103,10 +105,12 @@ class Rectangle:
         return "\n".join(rectangle_str)
 
     def __repr__(self):
-        """Return string representation of the rectangle that can be used with eval().
+        """Return string representation of the rectangle
+        that can be used with eval().
 
         Returns:
-            str: String representation that can recreate the rectangle with eval().
+            str: String representation that can recreate
+            the rectangle with eval().
         """
         return "Rectangle({}, {})".format(self.__width, self.__height)
 
@@ -124,10 +128,12 @@ class Rectangle:
             rect_2: Second rectangle to compare.
 
         Returns:
-            Rectangle: The rectangle with the bigger area, or rect_1 if they're equal.
+            Rectangle: The rectangle with the bigger area,
+            or rect_1 if they're equal.
 
         Raises:
-            TypeError: If rect_1 or rect_2 is not an instance of Rectangle.
+            TypeError: If rect_1 or rect_2 is not an instance
+            of Rectangle.
         """
         if not isinstance(rect_1, Rectangle):
             raise TypeError("rect_1 must be an instance of Rectangle")
