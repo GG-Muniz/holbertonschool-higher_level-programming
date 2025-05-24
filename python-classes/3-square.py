@@ -3,7 +3,8 @@
 
 
 class Square:
-    """A class that defines a square with size validation and area calculation."""
+    """A class that defines a square with
+    size validation and area calculation."""
 
     def __init__(self, size=0):
         """Initialize a new Square instance.
