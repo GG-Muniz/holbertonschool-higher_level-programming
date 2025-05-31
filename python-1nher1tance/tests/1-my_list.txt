@@ -1,0 +1,194 @@
+Test cases for 1-my_list.py
+These tests use Python's doctest format to verify MyList functionality
+First, let's import our custom list class:
+
+
+
+MyList = import('1-my_list').MyList
+
+
+
+Basic functionality tests
+Test that MyList inherits all list functionality:
+
+
+
+my_list = MyList()
+my_list.append(1)
+my_list.append(4)
+my_list.append(2)
+my_list.append(3)
+my_list.append(5)
+print(my_list)
+[1, 4, 2, 3, 5]
+
+
+
+Test the print_sorted method:
+
+
+
+my_list.print_sorted()
+[1, 2, 3, 4, 5]
+
+
+
+Verify original list is unchanged:
+
+
+
+print(my_list)
+[1, 4, 2, 3, 5]
+
+
+
+Edge cases and comprehensive testing
+Test with empty list:
+
+
+
+empty_list = MyList()
+empty_list.print_sorted()
+[]
+
+
+
+Test with single element:
+
+
+
+single = MyList([42])
+single.print_sorted()
+[42]
+
+
+
+Test with duplicate elements:
+
+
+
+duplicates = MyList([3, 1, 3, 1, 3])
+duplicates.print_sorted()
+[1, 1, 3, 3, 3]
+
+
+
+Test with negative numbers:
+
+
+
+negatives = MyList([-1, -5, 0, 3, -2])
+negatives.print_sorted()
+[-5, -2, -1, 0, 3]
+
+
+
+Test with already sorted list:
+
+
+
+sorted_list = MyList([1, 2, 3, 4, 5])
+sorted_list.print_sorted()
+[1, 2, 3, 4, 5]
+
+
+
+Test with reverse sorted list:
+
+
+
+reverse_list = MyList([5, 4, 3, 2, 1])
+reverse_list.print_sorted()
+[1, 2, 3, 4, 5]
+
+
+
+Test inheritance - verify MyList IS a list
+Test that MyList is an instance of list:
+
+
+
+my_list = MyList([1, 2, 3])
+isinstance(my_list, list)
+True
+
+
+
+Test that we can use all list methods:
+
+
+
+my_list = MyList()
+my_list.extend([1, 2, 3])
+my_list.append(4)
+my_list.insert(0, 0)
+print(my_list)
+[0, 1, 2, 3, 4]
+
+
+
+Test list slicing works:
+
+
+
+my_list = MyList([1, 2, 3, 4, 5])
+print(my_list[1:4])
+[2, 3, 4]
+
+
+
+Test list concatenation:
+
+
+
+list1 = MyList([1, 2])
+list2 = MyList([3, 4])
+result = list1 + list2
+print(result)
+[1, 2, 3, 4]
+type(result) == list  # Note: + returns regular list, not MyList
+True
+
+
+
+Verify original functionality isn't broken
+Test that sort() method still works (this modifies the original):
+
+
+
+my_list = MyList([3, 1, 4])
+my_list.sort()
+print(my_list)
+[1, 3, 4]
+
+
+
+Test that print_sorted still works after sort:
+
+
+
+my_list.print_sorted()
+[1, 3, 4]
+
+
+
+Documentation tests
+Test that the class has proper documentation:
+
+
+
+MyList.doc is not None
+True
+len(MyList.doc) > 10
+True
+
+
+
+Test that the method has documentation:
+
+
+
+MyList.print_sorted.doc is not None
+True
+
+
