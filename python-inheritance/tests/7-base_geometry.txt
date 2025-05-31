@@ -1,0 +1,180 @@
+Test cases for 7-base_geometry.py
+These tests demonstrate comprehensive testing of inheritance and validation
+Import the BaseGeometry class:
+
+BaseGeometry = import('7-base_geometry').BaseGeometry
+
+Basic class functionality tests
+Test that we can create an instance:
+
+bg = BaseGeometry()
+type(bg)
+<class '7-base_geometry.BaseGeometry'>
+
+Test that BaseGeometry inherits from object:
+
+isinstance(bg, object)
+True
+
+Testing the area() method - should always raise Exception
+Test area method raises exception:
+
+bg = BaseGeometry()
+bg.area()  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+Exception: area() is not implemented
+
+Test that the exception message is correct:
+
+try:
+...     bg.area()
+... except Exception as e:
+...     print(str(e))
+area() is not implemented
+
+Testing integer_validator - Valid inputs
+Test with valid positive integers:
+
+bg = BaseGeometry()
+bg.integer_validator("width", 5)  # Should not raise any exception
+
+bg.integer_validator("height", 100) # Should not raise any exception
+
+bg.integer_validator("size", 1) # Minimum valid value
+
+Test with different parameter names:
+
+bg.integer_validator("radius", 42)
+
+bg.integer_validator("length", 999)
+
+Testing integer_validator - Invalid type errors
+Test with string instead of integer:
+
+bg.integer_validator("width", "5")  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: width must be an integer
+
+Test with float instead of integer:
+
+bg.integer_validator("height", 5.5)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: height must be an integer
+
+Test with boolean (tricky case - bool inherits from int):
+
+bg.integer_validator("width", True)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: width must be an integer
+
+bg.integer_validator("height", False)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: height must be an integer
+
+Test with None:
+
+bg.integer_validator("size", None)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: size must be an integer
+
+Test with list:
+
+bg.integer_validator("width", [1, 2, 3])  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: width must be an integer
+
+Test with dictionary:
+
+bg.integer_validator("height", {"key": "value"})  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: height must be an integer
+
+Test with tuple:
+
+bg.integer_validator("size", (1, 2))  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: size must be an integer
+
+Testing integer_validator - Invalid value errors (correct type, wrong value)
+Test with zero:
+
+bg.integer_validator("width", 0)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: width must be greater than 0
+
+Test with negative integers:
+
+bg.integer_validator("height", -1)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: height must be greater than 0
+
+bg.integer_validator("size", -100)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+ValueError: size must be greater than 0
+
+Edge case testing
+Test with very large integer:
+
+bg.integer_validator("big_number", 999999999999999) # Should work fine
+
+Testing parameter name in error messages
+Test that parameter name appears correctly in TypeError:
+
+try:
+...     bg.integer_validator("custom_param", "not_int")
+... except TypeError as e:
+...     print(str(e))
+custom_param must be an integer
+
+Test that parameter name appears correctly in ValueError:
+
+try:
+...     bg.integer_validator("my_dimension", -5)
+... except ValueError as e:
+...     print(str(e))
+my_dimension must be greater than 0
+
+Testing method existence and documentation
+Test that methods exist:
+
+hasattr(BaseGeometry, 'area')
+True
+hasattr(BaseGeometry, 'integer_validator')
+True
+
+Test that methods are callable:
+
+callable(BaseGeometry.area)
+True
+callable(BaseGeometry.integer_validator)
+True
+
+Documentation tests
+Test class documentation:
+
+BaseGeometry.doc is not None True len(BaseGeometry.doc) > 10 True
+
+Test area method documentation:
+
+BaseGeometry.area.doc is not None True
+
+Test integer_validator method documentation:
+
+BaseGeometry.integer_validator.doc is not None True
+
+Testing with missing arguments (should raise TypeError)
+Test area() with arguments (it takes none):
+
+bg.area(5)  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: area() takes 1 positional argument but 2 were given
+
+Test integer_validator with missing arguments:
+
+bg.integer_validator("width")  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: integer_validator() missing 1 required positional argument: 'value'
+
+bg.integer_validator()  # doctest: +IGNORE_EXCEPTION_DETAIL
+Traceback (most recent call last):
+TypeError: integer_validator() missing 2 required positional arguments: 'name' and 'value'
