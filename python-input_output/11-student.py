@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""Module that defines a Student class with filtered JSON
-representation."""
+"""Module that defines a Student class with
+JSON serialization/deserialization."""
 
 
 class Student:
@@ -19,8 +19,7 @@ class Student:
         self.age = age
 
     def to_json(self, attrs=None):
-        """Retrieve a dictionary representation of a
-        Student instance.
+        """Retrieve a dictionary representation of a Student instance.
 
         Args:
             attrs (list): List of attribute names to retrieve.
@@ -33,3 +32,13 @@ class Student:
                                            for item in attrs):
             return {k: v for k, v in self.__dict__.items() if k in attrs}
         return self.__dict__
+
+    def reload_from_json(self, json):
+        """Replace all attributes of the Student instance.
+
+        Args:
+            json (dict): Dictionary where keys are attribute names
+                        and values are the new values for those attributes.
+        """
+        for key, value in json.items():
+            setattr(self, key, value)
