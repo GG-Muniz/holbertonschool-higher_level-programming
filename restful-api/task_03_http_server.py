@@ -40,7 +40,7 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
         """
 
         self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
 
         response_text = "Hello, welcome to this simple API!"
@@ -75,6 +75,7 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
+
         self.wfile.write("OK".encode('utf-8'))
 
     def _handle_not_found(self):
@@ -83,16 +84,12 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
         Returns 404 NOT FOUND error
         """
         self.send_response(404)
-        self.send_header('Content-type', 'application/json')
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-        error_response = {
-            "error": "Endpoint not found",
-            "message": f"The requested endpoint '{self.path}' does not exist"
-        }
+        error_message = "Endpoint not found"
 
-        json_response = json.dumps(error_response)
-        self.wfile.write(json_response.encode('utf-8'))
+        self.wfile.write(error_message.encode('utf-8'))
 
     def log_message(self, format, *args):
         """
