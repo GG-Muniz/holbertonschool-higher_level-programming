@@ -5,16 +5,13 @@ Shows Basic HTTP request handling and JSON responses
 """
 
 import json
-import http.server
-import socketserver
-from urllib.parse import urlparse
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
-class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
+class SimpleAPIHandler(BaseHTTPRequestHandler):
     """
     Since we are inheriting fron BaseHTTPRequestHandler -
-    we will get all networking infrastructure and only need
-    to define our specific response logic
+    Class will handle different simple API endpoints
     """
 
     def do_GET(self):
@@ -22,13 +19,11 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
         Method will be called whenever we GET a request to our server
         """
 
-        parsed_path = urlparse(self.path).path
-
-        if parsed_path == '/':
+        if self.path == '/':
             self._handle_root()
-        elif parsed_path == '/data':
+        elif self.path == '/data':
             self._handle_data()
-        elif parsed_path == '/status':
+        elif self.path == '/status':
             self._handle_status()
         else:
             self._handle_not_found()
@@ -40,11 +35,10 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
         """
 
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', 'text/plain')
         self.end_headers()
 
-        response_text = "Hello, welcome to this simple API!"
-        self.wfile.write(response_text.encode('utf-8'))
+        self.wfile.write(b"Hello, this is a simple API!")
 
     def _handle_data(self):
         """
@@ -58,13 +52,12 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
             "city": "New York"
         }
 
-        json_response = json.dumps(data)
+        json_data = json.dumps(data)
 
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
-        self.send_header('Content-Length', str(len(json_response)))
         self.end_headers()
-        self.wfile.write(json_response.encode('utf-8'))
+        self.wfile.write(json_data.encode())
 
     def _handle_status(self):
         """
@@ -76,7 +69,7 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
 
-        self.wfile.write("OK".encode('utf-8'))
+        self.wfile.write(b"OK")
 
     def _handle_not_found(self):
         """
@@ -84,12 +77,10 @@ class SimpleAPIHandler(http.server.BaseHTTPRequestHandler):
         Returns 404 NOT FOUND error
         """
         self.send_response(404)
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', 'text/plain')
         self.end_headers()
 
-        error_message = "Endpoint not found"
-
-        self.wfile.write(error_message.encode('utf-8'))
+        self.wfile.write(b"Endpoint not found")
 
     def log_message(self, format, *args):
         """
@@ -103,22 +94,17 @@ def run_server(port=8000):
     """
     Create and run the HTTP Server
     Sets up and begins listening for connections inbound
+
+    Args:
+        port (int): port to run server on (default:8000)
     """
+    server_address = ('', port)
 
-    with socketserver.TCPServer(("", port), SimpleAPIHandler) as httpd:
-        print(f"Starting server on port {port}")
-        print(f"Visiting http://localhost:{port} to test your API")
-        print("Available endpoints:")
-        print(" / - Welcome message")
-        print(" /data - JSON data about a person")
-        print(" /status - API status check")
-        print("\nPess Ctrl+C to stop server")
+    httpd = HTTPServer(server_address, SimpleAPIHandler)
+    print(f"Server running on port {port}...")
 
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nServer stopped by user")
+    httpd.serve_forever()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     run_server()
