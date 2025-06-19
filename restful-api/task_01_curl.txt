@@ -1,0 +1,14 @@
+# Install curl through terminal - Linux
+sudo apt install curl
+
+# Check curl version
+curl --version
+
+# Fetch webpage using curl
+curl https://jsonplaceholder.typicode.com/posts
+
+# Fetch only headers
+curl -I https://jsonplaceholder.typicode.com/posts
+
+# Make a POST request
+curl -X POST -s "title=foo&body=bar&userId=1" https://jsonplaceholder.typicode.com/posts
