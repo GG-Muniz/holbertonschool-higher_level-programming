@@ -25,14 +25,14 @@ def home():
 
 
 @app.route('/data')
-def get_users():
+def get_all_usernames():
     """
     Get all username endpoints
     Returns:
         JSON: list of all usernames in the system(memory)
     """
-    usernames = list(users.keys())
-    return jsonify(usernames)
+    usernames_list = list(users.keys())
+    return jsonify(usernames_list)
 
 
 @app.route('/status')
@@ -61,27 +61,40 @@ def add_user():
     data = request.get_json()
 
     if not data:
-        return jsonify({"error": "No data provided"}), 400
-
-    if 'username' not in data:
-        return jsonify({"error": "Username is required"}), 400
+        error_response = {"error": "No data provided"}
+        return jsonify(error_response), 400
 
     username = data['username']
 
-    user_data = {
+    user_object = {
         "username": username,
         "name": data.get('name', ''),
         "age": data.get('age', 0),
         "city": data.get('city', '')
     }
 
-    users[username] = user_data
+    users[username] = user_object
 
-    response = {
+    success_response = {
         "message": "User added",
-        "user": user_data
+        "user": user_object
     }
-    return jsonify(response), 201
+
+    return jsonify(success_response), 201
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """
+    Global 404 error handler.
+    Ensures 404 errors return JSON not HTML
+    Args:
+        error: error object from Flask
+    Returns:
+        JSON: error message 404 status
+    """
+    error_response = {"error": "Endpoint not found"}
+    return jsonify(error_response), 404
 
 
 if __name__ == '__main__':
