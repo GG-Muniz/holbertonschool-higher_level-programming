@@ -122,7 +122,7 @@ def basic_protected():
     return "Basic Auth: Access Granted"
 
 
-@app.route('login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     """
     Accepts username/password and returns JWT token
