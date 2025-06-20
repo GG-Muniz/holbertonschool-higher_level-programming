@@ -178,5 +178,24 @@ def admin_only():
     return "Admin Access: Granted"
 
 
+@app.errorhandler(404)
+def not_found(error):
+    """
+    Global 404 - ensuring JSON responds for all endpoints.
+    """
+    return jsonify({"error": "Endpoint not found"}), 404
+
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    """
+    Handles incorrect HTTP methods.
+    """
+    return jsonify({"error": "Method not allowed"}), 405
+
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    """
+    Runs Flask DEvelopment Server.
+    """
+    app.run(debug=False, host='0.0.0.0', port=5000)
