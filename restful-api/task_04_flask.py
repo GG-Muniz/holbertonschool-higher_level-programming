@@ -81,6 +81,10 @@ def add_user():
         error_response = {"error": "No data provided"}
         return jsonify(error_response), 400
 
+    if 'username' not in data:
+        error_response = {"error": "Username is required"}
+        return jsonify(error_response), 400
+
     username = data['username']
 
     user_object = {
