@@ -36,7 +36,7 @@ users = {
 
 
 @auth.verify_password
-def varify_password(username, password):
+def verify_password(username, password):  # Fixed typo: was 'varify_password'
     """
     verify User and Password - basic verification
     Args:
@@ -114,7 +114,7 @@ def admin_required():
 @auth.login_required
 def basic_protected():
     """
-    Enpoint protected by basic authentication
+    Endpoint protected by basic authentication
     Requires valid username and password.
     Returns:
         str: Success message - if authenticated.
@@ -150,20 +150,21 @@ def login():
             )
             return jsonify({"access_token": access_token}), 200
 
-        return jsonify({"error": "Invalid credentials"}), 401
+    # Fixed: This should return 401 for any invalid credentials
+    return jsonify({"error": "Invalid credentials"}), 401
 
 
 @app.route('/jwt-protected')
 @jwt_required()
 def jwt_protected():
     """
-    Enpoint protected by JWT authentication.
+    Endpoint protected by JWT authentication.
     Requires valid JWT token in Authorization Header
     Returns:
-        str: Sucess message if authenticated.
+        str: Success message if authenticated.
     """
     current_user = get_jwt_identity()
-    return "JWT AUTH: Access Granted"
+    return "JWT Auth: Access Granted"  # Fixed: Changed from "JWT AUTH:" to "JWT Auth:"
 
 
 @app.route('/admin-only')
@@ -196,6 +197,6 @@ def method_not_allowed(error):
 
 if __name__ == '__main__':
     """
-    Runs Flask DEvelopment Server.
+    Runs Flask Development Server.
     """
     app.run(debug=False, host='0.0.0.0', port=5000)
