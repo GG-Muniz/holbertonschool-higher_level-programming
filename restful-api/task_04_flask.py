@@ -45,6 +45,23 @@ def status():
     return "OK"
 
 
+@app.route('/users/<username>')
+def get_user(username):
+    """
+    Retrieve a specific user by username
+    Args:
+        username (str): username to look up from URL
+    Returns:
+        JSON: complete user object - if found
+        JSON: error message 404 status - if not found.
+    """
+    if username in users:
+        return jsonify(users[username])
+    else:
+        error_response = {"error": "User not found"}
+        return jsonify(error_response), 404
+
+
 @app.route('/add_user', methods=['POST'])
 def add_user():
     """
