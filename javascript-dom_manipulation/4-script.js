@@ -5,4 +5,4 @@ document.addEventListener('DOMContentLoaded', function () {
     newItem.textContent = 'Item';
     list.appendChild(newItem);
   });
-}); 
+});
