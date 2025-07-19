@@ -7,4 +7,4 @@ if (args.length <= 1) {
   const numbers = args.map(arg => parseInt(arg));
   numbers.sort((a, b) => b - a);
   console.log(numbers[1]);
-} 
+}
